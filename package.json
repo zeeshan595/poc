@@ -1,0 +1,37 @@
+{
+  "name": "new-poc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "clean": "rm -rf build",
+    "build": "tsc && tscpaths -p tsconfig.json -s ./ -o ./build/",
+    "build:dev": "nodemon --ignore ./build --watch ./src -e ts --exec \"npm run build\"",
+    "start": "node build/src/index.js",
+    "start:dev": "nodemon --watch ./build build/src/index.js",
+    "migration:generate": "npm run build && typeorm migration:generate --config build/src/database/config.js --dir src/migrations",
+    "migration:create": "npm run build && typeorm migration:create --config build/src/database/config.js --dir src/migrations",
+    "migration:run": "npm run build && typeorm migration:run --config build/src/database/config.js",
+    "migration:revert": "npm run build && typeorm migration:revert --config build/src/database/config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.11.1",
+    "nodemon": "^2.0.14",
+    "reflect-metadata": "^0.1.13",
+    "tscpaths": "^0.0.9",
+    "type-graphql": "^1.1.1",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "apollo-server-express": "^3.4.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "graphql": "^15.6.1",
+    "mongodb": "^3.7.2",
+    "typeorm": "^0.2.38"
+  }
+}
