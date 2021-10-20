@@ -47,7 +47,6 @@ export class UserResolver {
       take: limit,
       skip: limit * page,
     });
-    console.log(result);
     const meta = createPaginationMeta(page, limit, result.length, total);
     return {
       meta,
