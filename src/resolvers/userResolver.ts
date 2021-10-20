@@ -1,7 +1,21 @@
 import { ObjectID } from 'mongodb';
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import {
+  Arg,
+  Field,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+} from 'type-graphql';
 import { getRepository } from '@/database';
 import { User } from '@/models/user';
+import { createPaginationMeta, Pagination } from '@/models/pagination';
+
+@ObjectType()
+export class PaginatedUsers extends Pagination<User> {
+  @Field(() => [User])
+  declare items: User[];
+}
 
 // setup graphql resolver
 @Resolver()
@@ -21,6 +35,24 @@ export class UserResolver {
     return await userRepo.findOne({
       _id: new ObjectID(id),
     });
+  }
+
+  @Query(() => PaginatedUsers)
+  async usersPaginated(
+    @Arg('page') page: number,
+    @Arg('limit') limit: number
+  ): Promise<Pagination<User>> {
+    const userRepo = await getRepository(User);
+    const [result, total] = await userRepo.findAndCount({
+      take: limit,
+      skip: limit * page,
+    });
+    console.log(result);
+    const meta = createPaginationMeta(page, limit, result.length, total);
+    return {
+      meta,
+      items: result,
+    };
   }
 
   @Mutation(() => User)
