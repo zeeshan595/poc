@@ -6,9 +6,8 @@
   "scripts": {
     "clean": "rm -rf build",
     "build": "tsc && tscpaths -p tsconfig.json -s ./ -o ./build/",
-    "build:dev": "nodemon --ignore ./build --watch ./src -e ts --exec \"npm run build\"",
     "start": "node build/src/index.js",
-    "start:dev": "nodemon --watch ./build build/src/index.js",
+    "start:dev": "nodemon --ignore ./build --watch ./src -e ts --exec \"docker-compose up\"",
     "migration:generate": "typeorm migration:generate --config build/src/database/config.js --dir src/migrations",
     "migration:create": "typeorm migration:create --config build/src/database/config.js --dir src/migrations",
     "migration:run": "typeorm migration:run --config build/src/database/config.js",

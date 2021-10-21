@@ -9,14 +9,18 @@
 
 ## Getting Started
 
-#### Start Mongo Db using Docker Compose
-
-```bash
-# the app requires a mongodb setup
-docker-compose up
-```
+NOTE: The app requires a valid connection to mongo db
 
 #### Start Project with Docker
+
+```bash
+# use docker compose to start app and mongo db
+docker-compose up
+# destroy containers using the bellow command
+# docker-compose down
+```
+
+OR
 
 ```bash
 # build image
@@ -39,13 +43,11 @@ npm run start
 #### Start project with Watcher
 
 ```bash
-# auto builds project on change
-npm run build:dev
-# auto restarts project on change
+# auto restarts project using `docker-compose up`
 npm run start:dev
 ```
 
-## Migrations
+#### Migrations
 
 ```bash
 # make sure you build the project before running migrations

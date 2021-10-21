@@ -2,7 +2,7 @@ import { ConnectionOptions } from 'typeorm';
 
 export default {
   type: 'mongodb',
-  host: '127.0.0.1',
+  host: 'database',
   port: 27017,
   authSource: 'admin',
   username: 'root',
