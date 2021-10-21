@@ -7,7 +7,7 @@
 - [Docker](https://docs.docker.com/get-docker/) `20.10.9`
 - [Docker Compose](https://docs.docker.com/compose/install/) `1.29.2`
 
-## Setup
+## Getting Started
 
 #### Start Mongo Db using Docker Compose
 
