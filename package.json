@@ -9,10 +9,10 @@
     "build:dev": "nodemon --ignore ./build --watch ./src -e ts --exec \"npm run build\"",
     "start": "node build/src/index.js",
     "start:dev": "nodemon --watch ./build build/src/index.js",
-    "migration:generate": "npm run build && typeorm migration:generate --config build/src/database/config.js --dir src/migrations",
-    "migration:create": "npm run build && typeorm migration:create --config build/src/database/config.js --dir src/migrations",
-    "migration:run": "npm run build && typeorm migration:run --config build/src/database/config.js",
-    "migration:revert": "npm run build && typeorm migration:revert --config build/src/database/config.js"
+    "migration:generate": "typeorm migration:generate --config build/src/database/config.js --dir src/migrations",
+    "migration:create": "typeorm migration:create --config build/src/database/config.js --dir src/migrations",
+    "migration:run": "typeorm migration:run --config build/src/database/config.js",
+    "migration:revert": "typeorm migration:revert --config build/src/database/config.js"
   },
   "author": "",
   "license": "ISC",
