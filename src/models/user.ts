@@ -1,20 +1,20 @@
 import { Field, ObjectType } from 'type-graphql';
-import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm';
+import { Schema, Property } from 'better-mongoose';
 
-@Entity() // for typeorm
+@Schema()
 @ObjectType() // for graph ql
 export class User {
-  @ObjectIdColumn()
+  @Property()
   @Field(() => String, {
     name: 'id',
   })
-  _id: ObjectID | String;
+  _id: string;
 
-  @Column()
+  @Property()
   @Field(() => String)
   firstname: string;
 
-  @Column()
+  @Property()
   @Field(() => String)
   lastname: string;
 }

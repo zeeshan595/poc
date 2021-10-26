@@ -7,7 +7,7 @@ import {
   Query,
   Resolver,
 } from 'type-graphql';
-import { getRepository } from '@/database';
+import { getModel } from 'better-mongoose';
 import { User } from '@/models/user';
 import { createPaginationMeta, Pagination } from '@/models/pagination';
 
@@ -29,12 +29,15 @@ export class UserResolver {
   ): Promise<User> {
     // get user repository
     // this can be used to interact with mongodb
-    const userRepo = await getRepository(User);
+    const userModel = await getModel(User);
 
     // get one user with the matching name or fail
-    return await userRepo.findOne({
-      _id: new ObjectID(id),
+    const data = await userModel.findOne({
+      $where: function () {
+        return this._id === new ObjectID(id);
+      },
     });
+    return data.toObject<User>();
   }
 
   @Query(() => PaginatedUsers)
@@ -42,15 +45,17 @@ export class UserResolver {
     @Arg('page') page: number,
     @Arg('limit') limit: number
   ): Promise<Pagination<User>> {
-    const userRepo = await getRepository(User);
-    const [result, total] = await userRepo.findAndCount({
-      take: limit,
-      skip: limit * page,
-    });
+    const userModel = await getModel(User);
+    const total = await userModel.count();
+    const result = await userModel
+      .find()
+      .skip(limit * page)
+      .limit(limit);
+
     const meta = createPaginationMeta(page, limit, result.length, total);
     return {
       meta,
-      items: result,
+      items: [...result.map((r) => r.toObject<User>())],
     };
   }
 
@@ -61,13 +66,13 @@ export class UserResolver {
     @Arg('lastname')
     lastname: string
   ): Promise<User> {
-    const userRepo = await getRepository(User);
-    const user = await userRepo.insertOne({
+    const userRepo = await getModel(User);
+    const result = await userRepo.collection.insertOne({
       firstname,
       lastname,
-    } as User);
+    });
     return {
-      _id: user.insertedId.toString(),
+      _id: result.insertedId.toString(),
       firstname,
       lastname,
     };

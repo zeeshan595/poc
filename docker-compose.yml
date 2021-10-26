@@ -7,9 +7,9 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: myPassword
     ports:
       - 27017:27017
-  poc:
-    build: .
-    ports:
-      - 3000:3000
-    links:
-      - 'mongo:database'
+  # server:
+  #   build: .
+  #   ports:
+  #     - 3000:3000
+  #   links:
+  #     - 'mongo:database'
