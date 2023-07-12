@@ -6,9 +6,12 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [master]
+    branches:
+      - master
+      - tags/*
   pull_request:
-    branches: [master]
+    branches:
+      - master
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -36,11 +39,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     needs: build
+    if: contains('/ref/heads/master', github.ref)
     steps:
       - run: echo "Deploying to Development"
   production:
     runs-on: ubuntu-latest
     environment: production
     needs: development
+    if: contains('refs/tags/*', github.ref)
     steps:
       - run: echo "Deploying to Prod"
