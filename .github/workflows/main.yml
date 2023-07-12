@@ -39,7 +39,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     needs: build
-    if: contains('/ref/heads/master', github.ref)
     steps:
       - run: echo "Deploying to Development"
   production:
